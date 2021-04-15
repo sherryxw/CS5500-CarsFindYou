@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../home.css";
 
 import {
     Collapse,
@@ -37,33 +38,33 @@ const NavbarComponent = () => {
 
     return (
         <div className="nav-container">
-            <Navbar color="light" light expand="md">
+            <Navbar color="dark" light expand="md">
                 <Container>
                     <NavbarToggler onClick={toggle} />
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
                                 <NavLink
+                                    id="home"
                                     tag={RouterNavLink}
-                                    to="/"
+                                    to="/home"
                                     exact
                                     activeClassName="router-link-exact-active"
                                 >
                                     Home
                                 </NavLink>
                             </NavItem>
-
                         </Nav>
+
                         <Nav className="d-none d-md-block" navbar>
                             {!isAuthenticated && (
                                 <NavItem>
                                     <Button
                                         id="qsLoginBtn"
-                                        color="primary"
-                                        className="btn-margin"
+                                        className="btn btn-outline-light"
                                         onClick={() => loginWithRedirect()}
                                     >
-                                        Log in
+                                        Log In / Sign Up
                                     </Button>
                                 </NavItem>
                             )}
@@ -103,11 +104,11 @@ const NavbarComponent = () => {
                                 <NavItem>
                                     <Button
                                         id="qsLoginBtn"
-                                        color="primary"
+                                        className="btn btn-outline-light"
                                         block
                                         onClick={() => loginWithRedirect({})}
                                     >
-                                        Log in
+                                        Log In
                                     </Button>
                                 </NavItem>
                             </Nav>
@@ -119,15 +120,15 @@ const NavbarComponent = () => {
                                 style={{ minHeight: 170 }}
                             >
                                 <NavItem>
-                  <span className="user-info">
-                    <img
-                        src={user.picture}
-                        alt="Profile"
-                        className="nav-user-profile d-inline-block rounded-circle mr-3"
-                        width="50"
-                    />
-                    <h6 className="d-inline-block">{user.name}</h6>
-                  </span>
+                                    <span className="user-info">
+                                        <img
+                                            src={user.picture}
+                                            alt="Profile"
+                                            className="nav-user-profile d-inline-block rounded-circle mr-3"
+                                            width="50"
+                                        />
+                                        <h6 className="d-inline-block">{user.name}</h6>
+                                    </span>
                                 </NavItem>
                                 <NavItem>
                                     <FontAwesomeIcon icon="user" className="mr-3" />

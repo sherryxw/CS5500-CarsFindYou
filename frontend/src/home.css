@@ -1,0 +1,66 @@
+#home {
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  .home-container{
+    background-image: url('https://images.wallpaperscraft.com/image/bugatti_chiron_speed_side_view_113074_1600x900.jpg');
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    width:1280px;
+    height:600px;
+    text-align: center;
+  }
+  
+  #title {
+    color: white;
+    padding-top: 120px;
+    font-size: 4rem;
+    text-transform: uppercase;
+  }
+  
+  .signup_mainpage_btn {
+    position: relative;
+    top: 50px;
+    text-transform: uppercase;
+  }
+  
+  
+  /* cards */
+  .car_card {
+    text-align: left;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  }
+  
+  .img_container {
+    height: 300px;
+  }
+  
+  .card_img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .card_text {
+    margin-top: 50px;
+  }
+  
+  
+  /* filter */
+  .filter_container{
+    margin-top:270px;
+    margin-left: 0;
+    margin-bottom: 20px;
+    padding-top: 30px;
+    background-color: white;
+    min-height: 100px;
+    width: 1080px;
+    text-align: center;
+  }
+  
+  

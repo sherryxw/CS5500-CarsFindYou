@@ -4,6 +4,7 @@ import { Route, Switch, useHistory } from "react-router-dom";
 import Example from "src/pages/example";
 import Profile from "./pages/Profile";
 import NavbarComponent from "./pages/NavbarComponent";
+import Home from "./pages/Home";
 import "bootstrap/dist/css/bootstrap.css";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
     <div>
       <NavbarComponent/>
       <Switch>
+        <Route path="/home" exact component={Home}/>
         <Route path="/profile/:userId" exact component={Profile}/>
         <Route exact path='/example'>
           <Example />
