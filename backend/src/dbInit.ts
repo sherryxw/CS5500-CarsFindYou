@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import config from "./config";
 
-const dbInit = (callback: () => void) => {
+export const dbInit = (callback: () => void) => {
   mongoose
     .connect(config.mongoUrl, {
       useNewUrlParser: true,
@@ -11,14 +11,13 @@ const dbInit = (callback: () => void) => {
       console.log(`Connect to mongodb with url: ${config.mongoUrl}`);
       callback();
     })
-    .catch((error) => {
+    .catch(async (error) => {
       console.log(
         `Failed to initialize mongodb with url(${config.mongoUrl}): ${String(
           error
         )}`
       );
+      await mongoose.disconnect();
       process.exit(1);
     });
 };
-
-export default dbInit;

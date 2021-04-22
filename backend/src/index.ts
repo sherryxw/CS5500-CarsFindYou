@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import config from "./config";
-import dbInit from "./db-init";
+import { dbInit } from "./dbInit";
 import { exampleRouter } from "./routers";
 import { carRouter } from "./routers/cars";
 import {offerRouter} from "./routers/offers"
@@ -9,7 +9,6 @@ import {postRouter} from "./routers/posts"
 
 const serverInit = () => {
   const app = express();
-
   app.use(cors());
   // add body-parser
   const bodyParser = require("body-parser");
@@ -19,6 +18,9 @@ const serverInit = () => {
   app.get("/", (request, response) => {
     response.send("Hello World");
   });
+
+  app.use("/api/cars", carRouter);
+
 
   app.use("/api/example", exampleRouter);
   app.use("/api/cars", carRouter);
