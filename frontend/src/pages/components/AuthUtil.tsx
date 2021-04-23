@@ -4,7 +4,12 @@ import _ from "lodash";
 
 // https://reactjs.org/docs/hooks-custom.html
 function useAuthInfo() {
-  const { user, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
+  const {
+    user,
+    isAuthenticated,
+    getAccessTokenSilently,
+    getAccessTokenWithPopup,
+  } = useAuth0();
   const [userInfo, setUserInfo] = useState({
     email: "",
     user_id: "",
@@ -54,8 +59,10 @@ function useAuthInfo() {
       }
     };
 
-    getUserMetadata();
-  }, [user, getAccessTokenSilently, getAccessTokenWithPopup]);
+    if (isAuthenticated) {
+      getUserMetadata();
+    }
+  }, [user, isAuthenticated, getAccessTokenSilently, getAccessTokenWithPopup]);
 
   return userInfo;
 }

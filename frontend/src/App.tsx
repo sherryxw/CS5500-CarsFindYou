@@ -7,6 +7,8 @@ import Home from "./pages/home";
 import "bootstrap/dist/css/bootstrap.css";
 import ProtectedRoute from "./pages/components/ProtectedRoute";
 import BuyerManagement from "./pages/BuyerManagement";
+import CarManagement from "./pages/cars";
+import OfferManagement from "./pages/offers";
 import Employees from "./pages/Demand/Employees.js";
 
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
           exact
           component={BuyerManagement}
         />
+        <Route path={"/cars"} exact component={CarManagement} />
+        <Route path={"/offers"} exact component={OfferManagement} />
         <Route exact path='/example'>
           <Example />
         </Route>

@@ -312,7 +312,7 @@ const BuyerManagement = () => {
   return (
     <Container className={"mt-4"}>
       <Row>
-        <Col sm={3}>
+        <Col className='post-header-list' sm={3}>
           <Row>
             <Col sm='auto'>
               <h4>Your Posts</h4>
