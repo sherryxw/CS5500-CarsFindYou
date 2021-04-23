@@ -7,7 +7,7 @@ const CarManagement = () => {
     <Container>
       <Row className='justify-content-center'>
         <Col sm='auto'>
-          <h2>Offer Management</h2>
+          <h2>Car Management</h2>
         </Col>
       </Row>
       <Row className='justify-content-center'>

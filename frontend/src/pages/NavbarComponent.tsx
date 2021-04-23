@@ -80,7 +80,7 @@ const NavbarComponent = () => {
             <DropdownItem
               id='offer-management'
               tag={RouterNavLink}
-              to={`/management`}
+              to={`/offers`}
               activeClassName='router-link-exact-active'
             >
               <FontAwesomeIcon
