@@ -67,6 +67,7 @@ const BuyerManagement = () => {
         }
       );
     });
+    console.log(offerList);
   };
 
   const renderPostHeaderList = () => {
