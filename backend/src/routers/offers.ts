@@ -17,7 +17,6 @@ offerRouter.get("/", (req, res) => {
 
 //find offer by dealerId
 offerRouter.get("/dealer/:dealerId", (req, res, next) => {
-  console.log(req.params);
   OfferModel.find({ dealerId: req.params.dealerId })
     .then((offerList) => res.send(offerList))
     .catch((error) => {
