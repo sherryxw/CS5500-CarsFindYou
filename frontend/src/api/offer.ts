@@ -21,6 +21,6 @@ export const getDealerOffer = async (dealerId: string) => {
 };
 
 export const offerdelete = async (_id: string) => {
-  const response = await client.delete(`/offers/dealer/${_id}`);
+  const response = await client.delete(`/offers/${_id}`);
   return response.data as IOffer[];
 };

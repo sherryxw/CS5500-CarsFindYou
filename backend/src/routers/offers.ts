@@ -10,13 +10,14 @@ offerRouter.get("/", (req, res) => {
 
 // find offer by dealerId
 //offerRouter.get("/dealer/:dealerId", (req, res) => {
- // OfferModel.find({ dealerId: req.params.dealerId }).then((offer) =>
-   // res.send(offer)
-  //);
+// OfferModel.find({ dealerId: req.params.dealerId }).then((offer) =>
+// res.send(offer)
+//);
 //});
 
 //find offer by dealerId
 offerRouter.get("/dealer/:dealerId", (req, res, next) => {
+  console.log(req.params);
   OfferModel.find({ dealerId: req.params.dealerId })
     .then((offerList) => res.send(offerList))
     .catch((error) => {
@@ -62,8 +63,8 @@ offerRouter.put("/:id", (req, res, next) => {
 });
 
 //delete exising offer, if dealers revoke offer
-offerRouter.delete("/:id", (req, res, next) =>{
+offerRouter.delete("/:id", (req, res, next) => {
   OfferModel.findByIdAndDelete(req.params.id)
-  .then(() => res.json("deleted successfully"))
-  .then((err) => res.status(400).json("Error" + err));
+    .then(() => res.json("deleted successfully"))
+    .then((err) => res.status(400).json("Error" + err));
 });

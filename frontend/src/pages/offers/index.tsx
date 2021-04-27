@@ -23,7 +23,7 @@ import { IUserMetadata } from "src/api/user";
 import "./offerManagement.css";
 import { IOffer, OfferStatus } from "src/types/offer";
 import { ICar } from "src/types/car";
-
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 library.add(faCar, faPalette, faTachometerAlt);
 
@@ -42,35 +42,48 @@ const OfferManagement = () => {
     if (!!_.get(user, "sub", "")) {
       setOfferListLoading(true);
       api.offer.getDealerOffer(_.get(user, "sub", "")).then((offerList) => {
-      console.log(offerList);
         setOfferList(offerList);
-        setOfferListLoading(false);
-      });
-      const fetchDealerMetadataPromise = Promise.all(
-      offerList.map((offer) => api.user.get(offer.dealerId))).then((dealerList) =>{
-      setDealerList(dealerList)
-      });
-      console.log(dealerList);
-      const fetchCarListPromise = Promise.all(
-      offerList.map((offer) => api.car.get(offer.carId))).then((carList) =>{
-      setCarList(carList);
-      });
-      console.log(carList);
 
+        const fetchDealerMetadataPromise = Promise.all(
+          offerList.map((offer) => api.user.get(offer.dealerId))
+        ).then((dealerList) => {
+          setDealerList(dealerList);
+          console.log(dealerList);
+        });
+
+        const fetchCarListPromise = Promise.all(
+          offerList.map((offer) => api.car.get(offer.carId))
+        ).then((carList) => {
+          setCarList(carList);
+        });
+
+        Promise.all([fetchDealerMetadataPromise, fetchCarListPromise]).then(
+          () => {
+            setOfferListLoading(false);
+          }
+        );
+      });
     }
   }, [user]);
 
-
-
-
-  
-   //if dealer decides to revoke the offer, then delete the offer from offer collection 
+  //if dealer decides to revoke the offer, then update the offer's status to cancel in offer collection
 
   const handleOfferButtonOnClick = (offer: IOffer, status: OfferStatus) => {
-    api.offer.offerdelete(offer._id);
+    const copyOffer = _.cloneDeep(offer);
+    copyOffer.status = status;
+    api.offer.update(copyOffer).then((updatedOffer) => {
+      const newOfferList = offerList.map((offer) => {
+        if (offer._id === updatedOffer._id) {
+          return updatedOffer;
+        } else {
+          return offer;
+        }
+      });
+      setOfferList(newOfferList);
+    });
   };
-   
-  //render the cancel button
+
+  //render the update button
   const renderOfferButton = (offer: IOffer) => {
     if (offer.status === "PENDING") {
       return (
@@ -91,11 +104,11 @@ const OfferManagement = () => {
     } else {
       let message = "";
       if (offer.status === "ACCEPT") {
-        message = "This offer has been accepted by buyer";
+        message = "The offer has been accepted by buyer";
       } else if (offer.status === "DECLINE") {
-        message = "This offer is declined";
+        message = "The offer has been declined";
       } else {
-        message = "You have revoked the offer";
+        message = "The offer has  been canceled";
       }
       return (
         <Row className={"mt-3 justify-content-end"}>
@@ -105,9 +118,37 @@ const OfferManagement = () => {
     }
   };
 
-  
+  const handledeleteOfferButtonOnClick = (offer: IOffer) => {
+    api.offer.offerdelete(offer._id);
+    const newOfferList = offerList.map((offer) => {
+      return offer;
+    });
+    setOfferList(newOfferList);
+  };
 
-    
+  const renderdeleteOfferButton = (offer: IOffer) => {
+    if (
+      offer.status === "PENDING" ||
+      offer.status === "CANCEL" ||
+      offer.status === "DECLINE"
+    ) {
+      return (
+        <Row className={"mt-3 justify-content-end"}>
+          <Col sm='auto'>
+            <Button
+              color='success'
+              onClick={() => {
+                handledeleteOfferButtonOnClick(offer);
+              }}
+            >
+              Delete
+            </Button>
+          </Col>
+        </Row>
+      );
+    }
+  };
+
   const renderOfferList = () => {
     if (offerListLoading) {
       return (
@@ -127,9 +168,7 @@ const OfferManagement = () => {
         return (
           <Row className={"mt-3"}>
             <Col sm='12'>
-              <span>
-                No Vehicle information 
-              </span>
+              <span>No Vehicle information</span>
             </Col>
           </Row>
         );
@@ -192,13 +231,13 @@ const OfferManagement = () => {
                     <Row>
                       <Col sm='12'>
                         <span>Dealer: </span>
-                        //{dealer.user_name}
+                        {dealer.user_name}
                       </Col>
                     </Row>
                     <Row>
                       <Col sm='12'>
                         <span>Contact: </span>
-                        //{dealer.phone_number}
+                        {dealer.phone_number}
                       </Col>
                     </Row>
                     <Row>
@@ -208,6 +247,7 @@ const OfferManagement = () => {
                       </Col>
                     </Row>
                     {renderOfferButton(offer)}
+                    {renderdeleteOfferButton(offer)}
                   </Col>
                 </Row>
               </CardBody>
@@ -227,9 +267,8 @@ const OfferManagement = () => {
               <h4>Your Offers</h4>
             </Col>
           </Row>
-          
         </Col>
-       <Col sm={9}>{renderOfferList()}</Col> 
+        <Col sm={9}>{renderOfferList()}</Col>
       </Row>
     </Container>
   );
