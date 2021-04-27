@@ -33,3 +33,8 @@ export const getBuyerPost = async (buyerId: string) => {
   const response = await client.get(`/posts/buyer/${buyerId}`);
   return response.data as IPost[];
 };
+
+export const create = async (post: IPost) => {
+  const response = await client.post("/posts", post);
+  return response.data as IPost;
+};

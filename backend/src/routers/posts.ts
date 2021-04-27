@@ -72,7 +72,8 @@ postRouter.post("/", (req, res, next) => {
     image: req.body.image,
     price: parseInt(req.body.price),
     drivetrain: req.body.drivetrain,
-    additionalInformation: req.body.additionalInformation,
+    description: req.body.description,
+    comment: req.body.comment,
   });
   post
     .save()

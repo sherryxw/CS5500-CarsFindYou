@@ -3,6 +3,10 @@ import { Grid } from "@material-ui/core";
 import Controls from "../../Demand components/controls/Controls.js";
 import { useForm, Form } from "../../Demand components/useForm.js";
 import * as employeeService from "src/pages/Demand/employeeService.js";
+import api from "src/api";
+import _ from "lodash";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
 
 const drivetrainItems = [
   { id: "allwheeldrive", title: "All-Wheel Drive" },
@@ -11,10 +15,11 @@ const drivetrainItems = [
 ];
 
 const initialFValues = {
-  id: 0,
+  dealerId: 0,
+  title: "",
   carMake: "",
   carModel: "",
-  year: "",
+  carYear: "",
   zip: "",
   mileage: "",
   drivetrain: "",
@@ -23,11 +28,15 @@ const initialFValues = {
   color: "",
   price: "",
   comment: "",
+  description: "",
   vin: "",
   isCorrect: false,
 };
 
 export default function EmployeeForm() {
+  const { user } = useAuth0();
+  const history = useHistory();
+
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("carMake" in fieldValues)
@@ -41,12 +50,15 @@ export default function EmployeeForm() {
       temp.mileage = fieldValues.mileage ? "" : "This field is required.";
     if ("price" in fieldValues)
       temp.price = fieldValues.price ? "" : "This field is required.";
-    if ("year" in fieldValues)
-      temp.year =
-        fieldValues.year.length > 3 ? "" : "Minimum 4 numbers required.";
+    if ("carYear" in fieldValues)
+      temp.carYear =
+        fieldValues.carYear.length > 3 ? "" : "Minimum 4 numbers required.";
     if ("radius" in fieldValues)
       temp.radius =
         fieldValues.radius.length != 0 ? "" : "This field is required.";
+    if ("title" in fieldValues) {
+      temp.title = !fieldValues.title ? "This field is required" : "";
+    }
     setErrors({
       ...temp,
     });
@@ -54,20 +66,27 @@ export default function EmployeeForm() {
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
-  const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    resetForm,
-  } = useForm(initialFValues, true, validate);
+  const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
+    initialFValues,
+    true,
+    validate
+  );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      employeeService.insertEmployee(values);
-      resetForm();
+      const cloneValues = _.cloneDeep(values);
+      cloneValues.userId = _.get(user, "sub", "");
+      api.post
+        .create(cloneValues)
+        .then((res) => {
+          alert("car added succefully");
+          resetForm();
+          history.push("/");
+        })
+        .catch((err) => {
+          alert(err);
+        });
     }
   };
 
@@ -75,6 +94,13 @@ export default function EmployeeForm() {
     <Form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
+          <Controls.Input
+            name='title'
+            label='Post Title'
+            value={values.title}
+            onChange={handleInputChange}
+            error={errors.title}
+          />
           <Controls.Input
             name='carMake'
             label='Car Make'
@@ -91,10 +117,10 @@ export default function EmployeeForm() {
           />
           <Controls.Input
             label='Year'
-            name='year'
-            value={values.year}
+            name='carYear'
+            value={values.carYear}
             onChange={handleInputChange}
-            error={errors.year}
+            error={errors.carYear}
           />
           <Controls.Input
             label='Mileage'
@@ -158,19 +184,21 @@ export default function EmployeeForm() {
             value={values.comment}
             onChange={handleInputChange}
           />
+          <Controls.Input
+            label='Description'
+            name='description'
+            value={values.description}
+            onChange={handleInputChange}
+          />
           <Controls.Checkbox
             name='isCorrect'
-            label='Once submitted, it cannot be modified.'
+            label='Once submitted, it cannot be modified, the form will reset.'
             value={values.isCorrect}
             onChange={handleInputChange}
           />
           <div>
             <Controls.Button type='submit' text='Submit' />
-            <Controls.Button
-              text='Cancel'
-              color='default'
-              onClick={resetForm}
-            />
+            <Controls.Button text='Reset' color='default' onClick={resetForm} />
           </div>
         </Grid>
       </Grid>

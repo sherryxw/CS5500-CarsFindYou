@@ -1,0 +1,22 @@
+{
+  "name": "project-cars_find_you",
+  "version": "1.0.0",
+  "description": "**Final Project** for [CS5500](https://ccis.northeastern.edu/home/pgust/classes/cs5500/2021/Spring/) Foundation of Software Engineering at Northeastern University",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "frontend-build": "cd frontend && npm install && npm run build && cd ..",
+    "backend-build": "cd backend && npm install && npm run build && cd ..",
+    "build": "npm run frontend-build && npm run backend-build",
+    "start": "cd backend && node build/index.js"
+  },
+  "cacheDirectories": ["frontend/node_modules", "backend/node_modules"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.ccs.neu.edu/2021SPCS5500SB/project-cars_find_you.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

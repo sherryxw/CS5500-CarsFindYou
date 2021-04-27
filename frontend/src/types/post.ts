@@ -10,10 +10,10 @@ export interface IPost {
   mileage?: number;
   trim?: string;
   color?: string;
-  image?: string;
   price: number;
   drivetrain?: string;
-  additionalInformation?: string;
+  description?: string;
+  comment?: string;
   createdAt: Date;
   updatedAt: Date;
 }

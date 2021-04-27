@@ -1,16 +1,6 @@
-.post-header:hover {
-  background-color: rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  font-weight: 500;
-}
-
+.post-header:hover,
+.post-header-active:hover,
 .post-header-active {
-  background-color: rgba(0, 0, 0, 0.04);
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.post-header-active:hover {
   background-color: rgba(0, 0, 0, 0.08);
   cursor: pointer;
   font-weight: 500;

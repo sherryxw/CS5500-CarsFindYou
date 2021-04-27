@@ -13,7 +13,7 @@ export const mockCar: ICar[] = [
     _id: "1",
     dealerId: "1",
     vin: "SADF12FX0L1004477",
-    year: "2020",
+    carYear: "2020",
     carMake: "jaguar",
     carModel: "e-pace",
     color: "grey",
@@ -28,7 +28,7 @@ export const mockCar: ICar[] = [
     _id: "2",
     dealerId: "1",
     vin: "1FTEW1EP9JFB18546",
-    year: "2018",
+    carYear: "2018",
     carMake: "ford",
     carModel: "f-150",
     color: "black",
@@ -43,7 +43,7 @@ export const mockCar: ICar[] = [
     _id: "3",
     dealerId: "1",
     vin: "JN1EV7ELXHM553006",
-    year: "2017",
+    carYear: "2017",
     carMake: "infiniti",
     carModel: "q60",
     mileage: 34176,
@@ -69,12 +69,11 @@ export const mockPost: IPost[] = [
     mileage: 100000,
     trim: "",
     color: "",
-    image:
-      "https://static.cargurus.com/images/forsale/2016/01/31/13/14/2010_honda_civic-pic-6792191355056441752-1024x768.jpeg",
     price: 7000,
     drivetrain: "automatic",
-    additionalInformation:
+    description:
       "I want a car so much. Life without a car in the bay area is totally a nightmare and I can't stand with it.",
+    comment: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -90,12 +89,11 @@ export const mockPost: IPost[] = [
     mileage: 60000,
     trim: "",
     color: "",
-    image:
-      "https://static.cargurus.com/images/forsale/2020/11/06/08/34/2017_mazda_mx-5_miata-pic-3580021094246541612-1024x768.jpeg",
     price: 25000,
     drivetrain: "automatic",
-    additionalInformation:
+    description:
       "I want a roadster for fun. My budget is sufficient. So, if you have a good option, please give me an offer.",
+    comment: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -111,12 +109,12 @@ export const mockPost: IPost[] = [
     mileage: 50000,
     trim: "",
     color: "",
-    image:
-      "https://static.cargurus.com/images/forsale/2021/03/27/07/13/2017_cadillac_xt5-pic-7354959512710244799-1024x768.jpeg",
+
     price: 30000,
     drivetrain: "automatic",
-    additionalInformation:
+    description:
       "I believe a good suv suits me a lot since driving on highway for a long-distance road trip always excites me.",
+    comment: "",
     createdAt: new Date(),
     updatedAt: new Date(),
   },

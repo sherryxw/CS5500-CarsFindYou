@@ -1,5 +1,5 @@
 import express from "express";
-import { CarModel } from "../models/car";
+import { CarModel, ICarSnippet } from "../models/car";
 
 export const carRouter = express.Router();
 
@@ -21,7 +21,7 @@ carRouter.get("/:id", (request, response, next) => {
 
 
 // find car by dealerId
-carRouter.get("/dealer/:dealerId", (req, res, next) => {
+carRouter.get("/dealer/snippet/:dealerId", (req, res, next) => {
   const andCondition: any[] = [];
   andCondition.push({ dealerId: req.params.dealerId });
   if (!!req.query.carMake) {
@@ -40,7 +40,20 @@ carRouter.get("/dealer/:dealerId", (req, res, next) => {
   }
 
   CarModel.find({ $and: andCondition })
-    .then((carList) => res.send(carList))
+    .then((carList) => {
+      const carSnippetList: ICarSnippet[] = carList.map((car) => {
+        return {
+          _id: car._id,
+          vin: car.vin,
+          carMake: car.carMake,
+          carModel: car.carModel,
+          carYear: car.carYear,
+          price: car.price,
+          mileage: car.mileage,
+        };
+      });
+      res.send(carSnippetList);
+    })
     .catch((error) => {
       next(error);
     });
@@ -48,6 +61,7 @@ carRouter.get("/dealer/:dealerId", (req, res, next) => {
 
 // add new car
 carRouter.post("/", (req, res, next) => {
+  console.log(req.body);
   new CarModel({
     dealerId: req.body.dealerId,
     vin: req.body.vin,
@@ -56,7 +70,7 @@ carRouter.post("/", (req, res, next) => {
     mileage: parseInt(req.body.mileage),
     color: req.body.color,
     price: parseInt(req.body.price),
-    year: req.body.year,
+    carYear: req.body.carYear,
     trim: req.body.trim,
     description: req.body.description,
     image: req.body.image,
@@ -71,10 +85,10 @@ carRouter.post("/", (req, res, next) => {
 });
 
 // update exist car
-carRouter.put("/:carId", (req, res) => {
-  CarModel.updateOne({ _id: req.params.carId }, { $set: req.body })
-    .then(function () {
-      res.send(200);
+carRouter.put("/:id", (req, res) => {
+  CarModel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+    .then(function (newCar) {
+      res.send(newCar);
     })
     .catch(function (error) {
       res.send(error);

@@ -22,13 +22,13 @@ import classnames from "classnames";
 import _ from "lodash";
 import { useAuth0 } from "@auth0/auth0-react";
 import { IPost } from "src/types/post";
-import { ICar } from "src/types/car";
+import { ICar, ICarSnippet } from "src/types/car";
 import api from "src/api";
 import { IOffer } from "src/types/offer";
 import { ToastState } from "src/commons/Toast";
 
-export const buildCarOption = (car: ICar) => {
-  return `${car.year} ${car.carMake} ${car.carModel}, ${car.mileage} miles, $${car.price}`;
+export const buildCarOption = (car: ICarSnippet) => {
+  return `${car.carYear} ${car.carMake} ${car.carModel}, ${car.mileage} miles, $${car.price}`;
 };
 
 type Props = {
@@ -41,7 +41,7 @@ type Props = {
 const OfferModal = ({ open, onClose, post, setToastState }: Props) => {
   const { user } = useAuth0();
   const [loadingInventory, setLoadingInventory] = useState<boolean>(false);
-  const [inventory, setInventory] = useState<ICar[]>([]);
+  const [inventory, setInventory] = useState<ICarSnippet[]>([]);
   const [newCar, setNewCar] = useState<ICar>({} as ICar);
   const [newOffer, setNewOffer] = useState<IOffer>({} as IOffer);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -254,7 +254,7 @@ const OfferModal = ({ open, onClose, post, setToastState }: Props) => {
       <Form>
         <FormGroup row>
           <Col sm={4}>
-            <Label for='offer-modal-vin'>Vin</Label>
+            <Label for='offer-modal-vin'>VIN</Label>
             <Input
               id='offer-modal-vin'
               name='vin'
@@ -315,12 +315,12 @@ const OfferModal = ({ open, onClose, post, setToastState }: Props) => {
             <Label for='offer-modal-year'>Year</Label>
             <Input
               id='offer-modal-year'
-              name='year'
+              name='carYear'
               onChange={(event) => {
-                setNewCar({ ...newCar, year: event.target.value });
+                setNewCar({ ...newCar, carYear: event.target.value });
               }}
               type='text'
-              value={_.get(newCar, "year", "")}
+              value={_.get(newCar, "carYear", "")}
             />
           </Col>
           <Col sm={4}>
